@@ -1,4 +1,4 @@
-TeleKit
+TelegramBotKit
 
 Replace your bot token "Config.php"
 
