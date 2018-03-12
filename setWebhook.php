@@ -13,8 +13,7 @@ include __DIR__."/Class/Bot.php";
 $url = explode("/",$_SERVER['REQUEST_URI']);
 unset($url[count($url)-1]);
 $hook_url = $_SERVER['HTTP_HOST'] . "/".implode("/",$url)."/".Config::HOOK_FILE_NAME;
-
+print_r("Webhook Url : ".$hook_url);
 //set webhook
-$data = Bot::send("setWebhook",['url'=>$hook_url],true);
-print_r($data);
+print_r(Bot::send("setWebhook",['url'=>$hook_url],true));
 

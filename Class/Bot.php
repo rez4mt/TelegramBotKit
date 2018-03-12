@@ -17,24 +17,35 @@ class Bot{
     /* @var $params array*/
     public static function send($method,$params,$decode = false)
     {
-        if(!isset($params['chat_id']))
+        if(self::$URL==null)
         {
-            //add chat id
-            $params['chat_id'] = Config::$REQ->isMessage()?
-                Config::$REQ->getMessage()->from->id:
-                "";
+            if(class_exists("Config"))
+            {
+                Bot::__init(Config::BOT_TOKEN);
+            }else return false;
+        }
+        if(Config::$REQ!=null)
+        {
+            if(!isset($params['chat_id']))
+            {
+                //add chat id
+                $params['chat_id'] = Config::$REQ->isMessage()?
+                    Config::$REQ->getMessage()->from->id:
+                    "";
+            }
+
+            if(isset($params[0]))
+            {
+                $params['text'] = $params[0];
+                unset($params[0]);
+            }
+            if(isset($params[1]))
+            {
+                $params['reply_markup'] = $params[1];
+                unset($params[1]);
+            }
         }
 
-        if(isset($params[0]))
-        {
-            $params['text'] = $params[0];
-            unset($params[0]);
-        }
-        if(isset($params[1]))
-        {
-            $params['reply_markup'] = $params[1];
-            unset($params[1]);
-        }
         $ch = curl_init();
         curl_setopt($ch,CURLOPT_URL,self::$URL."/$method");
         curl_setopt($ch,CURLOPT_POST,1);
@@ -48,3 +59,4 @@ class Bot{
     }
 
 }
+
