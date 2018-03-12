@@ -7,17 +7,18 @@
  */
 class Bot{
     private static $URL;
-
+    public static $INIT = false;
     /* @var $token string*/
     static function __init($token)
     {
+        self::$INIT = true;
         self::$URL = "https://api.telegram.org/bot".$token;
     }
     /* @var $method string*/
     /* @var $params array*/
     public static function send($method,$params,$decode = false)
     {
-        if(self::$URL==null)
+        if(!self::$INIT)
         {
             if(class_exists("Config"))
             {
